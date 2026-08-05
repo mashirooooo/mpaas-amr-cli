@@ -27,8 +27,10 @@ const staging = await fs.mkdtemp(path.join(os.tmpdir(), 'mpaas-amr-runtime-'));
 try {
   await fs.cp(path.join(root, 'node_modules'), path.join(staging, 'node_modules'), {
     recursive: true,
-    dereference: true,
-    filter: (source) => path.basename(source) !== '.bin',
+    filter: (source) => {
+      const normalized = source.split(path.sep).join('/');
+      return !normalized.includes('/node_modules/.bin/') && !normalized.endsWith('/node_modules/.bin');
+    },
   });
   await fs.mkdir(path.join(staging, '.minidev'), { recursive: true });
   await fs.cp(compilerSource, path.join(staging, '.minidev', 'compilers', compilerVersion), { recursive: true });

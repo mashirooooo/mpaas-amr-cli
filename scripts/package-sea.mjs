@@ -6,6 +6,15 @@ import path from 'node:path';
 import process from 'node:process';
 import * as tar from 'tar';
 
+process.on('uncaughtException', (error) => {
+  console.error('[package:sea] uncaught exception', error);
+  process.exit(1);
+});
+process.on('unhandledRejection', (error) => {
+  console.error('[package:sea] unhandled rejection', error);
+  process.exit(1);
+});
+
 const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
 const target = process.env.SEA_TARGET || `${process.platform}-${process.arch}`;
@@ -19,11 +28,14 @@ await fs.mkdir(dist, { recursive: true });
 const compilerRoot = process.env.MINIDEV_COMPILER_SOURCE || path.join(os.homedir(), '.minidev', 'compilers');
 const compilerVersion = process.env.MINIDEV_COMPILER_VERSION || 'cubebuild@0.100.12';
 const compilerSource = path.join(compilerRoot, compilerVersion);
+console.log(`[package:sea] target=${target}`);
+console.log(`[package:sea] compiler=${compilerSource}`);
 if (!fsSync.existsSync(compilerSource)) {
   throw new Error(`Compiler resources not found at ${compilerSource}. Run minidev download-assets --with-compiler first.`);
 }
 
 const staging = await fs.mkdtemp(path.join(os.tmpdir(), 'mpaas-amr-runtime-'));
+console.log(`[package:sea] staging=${staging}`);
 try {
   await fs.cp(path.join(root, 'node_modules'), path.join(staging, 'node_modules'), {
     recursive: true,
@@ -40,12 +52,15 @@ try {
 }
 
 const runtimeArchive = path.join(dist, 'mpaas-amr-runtime.tar.gz');
+console.log('[package:sea] archiving runtime');
 await tar.c({ cwd: staging, file: runtimeArchive, gzip: true, portable: true }, [
   'node_modules',
   '.minidev/compilers',
 ]);
 await fs.rm(staging, { recursive: true, force: true });
+console.log(`[package:sea] runtime archive=${runtimeArchive}`);
 
+console.log('[package:sea] bundling CLI');
 const bundle = spawnSync(path.join(root, 'node_modules', '.bin', 'esbuild'), [
   'src/cli.mjs',
   '--bundle',
@@ -59,6 +74,7 @@ const bundle = spawnSync(path.join(root, 'node_modules', '.bin', 'esbuild'), [
 if (bundle.status !== 0) process.exit(bundle.status || 1);
 
 const seaConfig = JSON.parse(await fs.readFile(path.join(root, 'scripts', 'sea-config.json'), 'utf8'));
+console.log('[package:sea] creating SEA blob');
 seaConfig.assets = { 'mpaas-amr-runtime.tar': runtimeArchive };
 const generatedConfig = path.join(dist, 'sea-config.generated.json');
 await fs.writeFile(generatedConfig, JSON.stringify(seaConfig, null, 2));
@@ -71,6 +87,7 @@ if (result.status !== 0) process.exit(result.status || 1);
 
 const binary = path.join(dist, executableName);
 const nodeBinary = process.env.SEA_NODE_BINARY || process.execPath;
+console.log(`[package:sea] runtime=${nodeBinary}`);
 if (!fsSync.existsSync(nodeBinary)) throw new Error(`Node runtime not found: ${nodeBinary}`);
 await fs.copyFile(nodeBinary, binary);
 if (platform !== 'win32') await fs.chmod(binary, 0o755);

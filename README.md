@@ -102,6 +102,12 @@ Windows 需要在 Windows Docker 主机或 Windows CI runner 中执行同等流�
 
 项目内的 `.github/workflows/build.yml` 会分别在 `ubuntu-22.04` 和 `windows-2022` 上下载构建器、生成单文件并执行验证。当前 macOS 不属于交付目标。
 
+CI 还会在独立环境中验证单文件：Linux 使用不带 Node.js、项目 `node_modules` 和外部 `.minidev` 的 `debian:bookworm-slim` 容器；Windows 使用全新的临时目录。两个环境都会执行 `--help`、`build` 和 `validate`，因此构建 job 通过并不等于纯净验证通过，发布 job 只有在纯净验证通过后才会执行。
+
+CI 会把完整的 Linux 和 Windows 单文件发布到对应的 GitHub Release；Release 适合保存这类大文件，下载后可以直接运行。`build-artifacts` 分支仅用于保存可审计的分片归档和清单。
+
+由于 GitHub 单个 Git 文件限制为 100 MB，`build-artifacts` 分支不直接提交完整可执行文件，而是保存小于 100 MB 的分片、AMR 和 SHA-256 清单。恢复单文件时，在对应目录执行清单中的 `restore` 命令，然后按清单校验 SHA-256。
+
 ## 上传发布
 
 本工具负责构建和生成 `.amr`，不包含 mPaaS 控制台登录、上传和发布接口调用。生成文件后，在 mPaaS 控制台进入对应小程序的版本管理/离线包上传入口，上传：

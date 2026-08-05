@@ -11,6 +11,7 @@ permissions:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: ubuntu-22.04
@@ -29,7 +30,7 @@ jobs:
           node-version: 22.14.0
           cache: npm
       - run: npm ci
-      - run: node src/cli.mjs download-assets --with-compiler
+      - run: npm run download-assets
       - run: npm run build
       - run: npm run validate
       - run: npm run package:sea

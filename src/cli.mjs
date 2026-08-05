@@ -82,8 +82,8 @@ async function wrapAmr({ tarPath, appId, name, version, outputDir }) {
 
 async function build(options) {
   const minidevPackage = await loadMinidev();
-  const minidev = minidevPackage.default?.minidev || minidevPackage.minidev;
-  const EBuildTarget = minidevPackage.default?.EBuildTarget || minidevPackage.EBuildTarget;
+  const minidev = minidevPackage.minidev || minidevPackage.default?.minidev;
+  const EBuildTarget = minidevPackage.EBuildTarget || minidevPackage.default?.EBuildTarget;
   const appId = requireValue(options.appId, '--app-id');
   const version = safeVersion(requireValue(options.version, '--version'));
   const project = path.resolve(requireValue(options.project, '--project'));

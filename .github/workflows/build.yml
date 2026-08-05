@@ -130,7 +130,7 @@ jobs:
           set -euo pipefail
           rm -rf clean-linux
           mkdir -p clean-linux
-          cp incoming/dist/mpaas-amr-linux-x64 clean-linux/
+          cp incoming/mpaas-amr-linux-x64 clean-linux/
           chmod +x clean-linux/mpaas-amr-linux-x64
           test ! -e clean-linux/node_modules
           test ! -e clean-linux/.minidev
@@ -169,7 +169,7 @@ jobs:
           $clean = Join-Path $env:RUNNER_TEMP 'mpaas-amr-clean'
           Remove-Item -Recurse -Force $clean -ErrorAction SilentlyContinue
           New-Item -ItemType Directory -Force $clean | Out-Null
-          Copy-Item 'incoming/dist/mpaas-amr-win32-x64.exe' "$clean/mpaas-amr-win32-x64.exe"
+          Copy-Item 'incoming/mpaas-amr-win32-x64.exe' "$clean/mpaas-amr-win32-x64.exe"
           Copy-Item -Recurse 'fixtures/minimal' "$clean/project"
           if (Test-Path "$clean/node_modules") { throw 'node_modules must not be present' }
           if (Test-Path "$clean/.minidev") { throw '.minidev must not be present' }

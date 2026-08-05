@@ -61,7 +61,8 @@ await fs.rm(staging, { recursive: true, force: true });
 console.log(`[package:sea] runtime archive=${runtimeArchive}`);
 
 console.log('[package:sea] bundling CLI');
-const bundle = spawnSync(path.join(root, 'node_modules', '.bin', 'esbuild'), [
+const esbuildCli = path.join(root, 'node_modules', '.bin', `esbuild${platform === 'win32' ? '.cmd' : ''}`);
+const bundle = spawnSync(esbuildCli, [
   'src/cli.mjs',
   '--bundle',
   '--platform=node',
@@ -70,7 +71,7 @@ const bundle = spawnSync(path.join(root, 'node_modules', '.bin', 'esbuild'), [
   '--external:fsevents',
   '--external:electron',
   '--outfile=dist/bundle.cjs',
-], { cwd: root, stdio: 'inherit' });
+], { cwd: root, stdio: 'inherit', shell: platform === 'win32' });
 if (bundle.status !== 0) process.exit(bundle.status || 1);
 
 const seaConfig = JSON.parse(await fs.readFile(path.join(root, 'scripts', 'sea-config.json'), 'utf8'));

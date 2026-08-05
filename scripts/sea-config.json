@@ -1,0 +1,7 @@
+{
+  "main": "dist/bundle.cjs",
+  "output": "dist/mpaas-amr-sea.blob",
+  "disableExperimentalSEAWarning": true,
+  "useSnapshot": false,
+  "useCodeCache": false
+}

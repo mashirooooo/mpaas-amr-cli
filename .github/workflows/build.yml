@@ -1,0 +1,75 @@
+name: Build mPaaS AMR CLI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            target: linux-x64
+            executable: mpaas-amr-linux-x64
+          - os: windows-2022
+            target: win32-x64
+            executable: mpaas-amr-win32-x64.exe
+    runs-on: ${{ matrix.os }}
+    env:
+      MINIDEV_SKIP_DOWNLOAD_ASSETS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          cache: npm
+      - run: npm ci
+      - run: node src/cli.mjs download-assets --with-compiler
+      - run: npm run build
+      - run: npm run validate
+      - run: npm run package:sea
+        env:
+          SEA_TARGET: ${{ matrix.target }}
+      - run: ./dist/${{ matrix.executable }} --help
+      - run: ./dist/${{ matrix.executable }} validate artifacts/1.0.0.0/0000000000000012.amr
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mpaas-amr-${{ matrix.target }}
+          path: |
+            dist/${{ matrix.executable }}
+            artifacts/1.0.0.0/0000000000000012.amr
+
+  publish-artifacts:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          path: incoming
+      - name: Update artifact branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin build-artifacts >/dev/null 2>&1; then
+            git fetch origin build-artifacts
+            git checkout -B build-artifacts origin/build-artifacts
+          else
+            git checkout --orphan build-artifacts
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          release="releases/${GITHUB_RUN_NUMBER}"
+          mkdir -p "$release"
+          cp -R incoming/. "$release/"
+          git add -f "$release"
+          git commit -m "build: publish artifacts for run ${GITHUB_RUN_NUMBER}" || true
+          git push origin build-artifacts

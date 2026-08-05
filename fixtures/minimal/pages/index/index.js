@@ -1,0 +1,3 @@
+Page({
+  data: { ready: true },
+});

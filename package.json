@@ -1,0 +1,29 @@
+{
+  "name": "mpaas-amr-cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Build a minidev project and wrap its publish tar into an mPaaS AMR package.",
+  "bin": {
+    "mpaas-amr": "src/cli.mjs"
+  },
+  "scripts": {
+    "build": "node src/cli.mjs build --project fixtures/minimal --app-id 0000000000000012 --version 1.0.0.0 --output artifacts",
+    "validate": "node src/cli.mjs validate artifacts/1.0.0.0/0000000000000012.amr",
+    "download-assets": "node src/cli.mjs download-assets --with-compiler",
+    "test": "node --test test/*.test.mjs",
+    "package:sea": "node scripts/package-sea.mjs"
+  },
+  "dependencies": {
+    "adm-zip": "0.5.16",
+    "commander": "8.3.0",
+    "minidev": "2.2.5",
+    "qrcode-reader": "^1.0.4",
+    "tar": "7.4.3"
+  },
+  "devDependencies": {
+    "@yao-pkg/pkg": "5.16.1",
+    "esbuild": "^0.25.0",
+    "postject": "^1.0.0-alpha.6"
+  }
+}

@@ -160,6 +160,7 @@ function downloadAssets(options) {
     const child = spawn(process.env.MINIDEV_CLI || defaultCli, args, {
       stdio: 'inherit',
       env: process.env,
+      shell: process.platform === 'win32',
     });
     child.on('error', reject);
     child.on('exit', (code) => code === 0 ? resolve() : reject(new Error(`minidev exited with ${code}`)));

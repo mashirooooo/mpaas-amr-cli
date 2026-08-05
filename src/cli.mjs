@@ -156,7 +156,8 @@ function downloadAssets(options) {
   if (options.cleanPrevious) args.push('--clean-previous');
   if (options.withCompiler) args.push('--with-compiler');
   return new Promise((resolve, reject) => {
-    const child = spawn(process.env.MINIDEV_CLI || 'minidev', args, {
+    const defaultCli = process.platform === 'win32' ? 'minidev.cmd' : 'minidev';
+    const child = spawn(process.env.MINIDEV_CLI || defaultCli, args, {
       stdio: 'inherit',
       env: process.env,
     });

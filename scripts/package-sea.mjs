@@ -33,8 +33,8 @@ try {
   throw error;
 }
 
-const runtimeArchive = path.join(dist, 'mpaas-amr-runtime.tar');
-await tar.c({ cwd: staging, file: runtimeArchive, portable: true }, [
+const runtimeArchive = path.join(dist, 'mpaas-amr-runtime.tar.gz');
+await tar.c({ cwd: staging, file: runtimeArchive, gzip: true, portable: true }, [
   'node_modules',
   '.minidev/compilers',
 ]);

@@ -30,7 +30,18 @@ jobs:
           node-version: 22.14.0
           cache: npm
       - run: npm ci
-      - run: npm run download-assets
+      - name: Download minidev assets with retry
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if npm run download-assets; then
+              exit 0
+            fi
+            echo "download-assets failed on attempt ${attempt}" >&2
+            if [ "$attempt" -lt 3 ]; then sleep 5; fi
+          done
+          exit 1
       - run: npm run build
       - run: npm run validate
       - run: npm run package:sea

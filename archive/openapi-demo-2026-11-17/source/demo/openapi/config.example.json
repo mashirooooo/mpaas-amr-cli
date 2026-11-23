@@ -1,0 +1,13 @@
+{
+  "action": "getPackages",
+  "baseUrl": "https://mcube.example.internal:8281",
+  "appId": "YOUR_MPAAS_APP_ID",
+  "workspaceId": "dev",
+  "tenantId": "ANTCLOUD",
+  "privateKeyFile": "./keys/private-key.pem",
+  "h5Id": "YOUR_MINI_PROGRAM_ID",
+  "packageTypes": "1",
+  "pageNum": 1,
+  "pageSize": 10,
+  "timeoutSeconds": 60
+}

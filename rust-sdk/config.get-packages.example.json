@@ -1,0 +1,13 @@
+{
+  "action": "getPackages",
+  "baseUrl": "https://mappcenter.example.internal",
+  "appId": "YOUR_MPAAS_APP_ID",
+  "workspaceId": "dev",
+  "tenantId": "ANTCLOUD",
+  "h5Id": "0000000000000148",
+  "privateKeyFile": "./keys/mpaas-private-key.pem",
+  "timeoutSeconds": 60,
+  "packageTypes": "1",
+  "pageNum": 1,
+  "pageSize": 10
+}

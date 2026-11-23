@@ -1,0 +1,27 @@
+[package]
+name = "mpaas-openapi-rs"
+version = "0.1.0"
+edition = "2021"
+description = "RSA-signed mPaaS private-cloud mini-program upload and release client"
+license = "MIT"
+
+[dependencies]
+base64 = "0.22"
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+hex = "0.4"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "multipart", "stream"] }
+rsa = { version = "0.9", features = ["pem"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = { version = "0.10", features = ["oid"] }
+signature = "2"
+thiserror = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "fs"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+zip = { version = "=2.4.2", default-features = false }
+
+[dev-dependencies]
+rand = "0.8"
+tempfile = "3"
+wiremock = "0.6"

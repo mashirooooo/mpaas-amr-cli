@@ -1,0 +1,169 @@
+{
+  "archiveName": "openapi-demo-2026-11-17",
+  "archivedAt": "2026-11-17T08:48:40.475Z",
+  "scope": "已交付的只读 getPackages OpenAPI 验证 demo，不代表上传或发布功能已通过真实后台验收。",
+  "verification": {
+    "userConfirmation": "用户本轮说明：现在demo已经验证过了。结合前文Windows demo上下文，将Windows demo标记为用户确认验证通过。",
+    "evidenceSource": "user_confirmation_in_current_conversation",
+    "userConfirmedWindowsDemo": true,
+    "agentExecutedNativeWindows": false,
+    "previousAgentWindowsAttempt": "此前仅在Wine 8尝试加载，因兼容层缺少bcryptprimitives.dll未进入查询测试。用户本轮确认补充了真实使用侧的验证结果，未在本仓库提供其后台参数或原始日志。",
+    "priorLocalMock": "Linux x64与macOS arm64独立客户端已验证GET参数、RSA路径签名、空列表成功、业务失败及HTTP 200 HTML识别。"
+  },
+  "sourceSnapshot": {
+    "capturedAt": "2026-11-17T08:46:46.182Z",
+    "note": "源文件为归档开始时的独立快照；三平台已交付二进制以各自SHA-256固定。本归档未执行可重现构建，不宣称源码快照与二进制逐字节重建匹配。",
+    "files": [
+      {
+        "path": "source/demo/openapi/README.md",
+        "bytes": 6635,
+        "sha256": "6550ee493f19ccd26a1f0a2656f1b2baef4b813e38b46cd68a87f67afa6d5288"
+      },
+      {
+        "path": "source/demo/openapi/config.example.json",
+        "bytes": 325,
+        "sha256": "efe624653fa419507a2a5fbba8a9ee3f179ed3c99b00c3f298657ad5ab422c70"
+      },
+      {
+        "path": "source/demo/openapi/.gitignore",
+        "bytes": 46,
+        "sha256": "5c415ae590190657bd578f4f402538ecb7b65f255b3c5551e64b727a21d002c1"
+      },
+      {
+        "path": "source/scripts/verify-openapi.mjs",
+        "bytes": 5446,
+        "sha256": "72c08b60e7c228756594e9f0bbabe51083e138d67cb0ac2e090bf3fe11e4d8a1"
+      },
+      {
+        "path": "source/scripts/package-openapi-demo.mjs",
+        "bytes": 1351,
+        "sha256": "3d9c6b59502716b9e7e9d71e78cdc9eaabc18a0e8aa57ca804665ae24c526e05"
+      },
+      {
+        "path": "source/rust-sdk/Cargo.toml",
+        "bytes": 871,
+        "sha256": "2d842b7549cb8b5d601085d6cb6216aae3641d29e558fb661da0b6712ab106ea"
+      },
+      {
+        "path": "source/rust-sdk/Cargo.lock",
+        "bytes": 53204,
+        "sha256": "f302ac089dc28ce6d9f93eb6a832fbae8b1c6cd56990343cdc6b2c76249ad7b3"
+      },
+      {
+        "path": "source/rust-sdk/src/client.rs",
+        "bytes": 12592,
+        "sha256": "4d5d4ed013c4a01f92e2256e8b74d02860d3325b13895f4fa37dff396e99bd61"
+      },
+      {
+        "path": "source/rust-sdk/src/config.rs",
+        "bytes": 17413,
+        "sha256": "992e7334b8c15a80615e60a043116764941de222da2897842adf3ddbb50502b7"
+      },
+      {
+        "path": "source/rust-sdk/src/lib.rs",
+        "bytes": 8740,
+        "sha256": "ddb3aba52a9379d356a4ed7d2adb2eba2c2d74d078971ce0427623affdd834e8"
+      },
+      {
+        "path": "source/rust-sdk/src/main.rs",
+        "bytes": 2497,
+        "sha256": "38e0cb54a6e4044695b041f812f55c112593a8672a880a475186118882fb7ab3"
+      },
+      {
+        "path": "source/rust-sdk/src/tests.rs",
+        "bytes": 19700,
+        "sha256": "660f3ba4270b663955148c498d85297feb7b52527feb7fa2f112eb81cbd13e2e"
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "kind": "demoPackage",
+      "platform": "linux-x64",
+      "originalPath": "dist/mpaas-openapi-demo-linux-x64.zip",
+      "archivePath": "artifacts/archive/openapi-demo-2026-11-17/mpaas-openapi-demo-linux-x64.zip",
+      "bytes": 2819372,
+      "sha256": "18ddabc4c890e3d724039b20690a972a0cf4ffa7cb85bb294b5817d4b35d8eda",
+      "downloadPath": "packages/mpaas-openapi-demo-linux-x64.zip"
+    },
+    {
+      "kind": "nativeClient",
+      "platform": "linux-x64",
+      "originalPath": "dist/mpaas-openapi-rs-linux-x64",
+      "archivePath": "artifacts/archive/openapi-demo-2026-11-17/mpaas-openapi-rs-linux-x64",
+      "bytes": 7482896,
+      "sha256": "e137d7e0310198dfac979d2a30deace77af82d7c545e43cfebc1b62f83195678",
+      "downloadPath": null
+    },
+    {
+      "kind": "checksum",
+      "platform": "linux-x64",
+      "originalPath": "dist/mpaas-openapi-demo-linux-x64.zip.sha256",
+      "archivePath": "artifacts/archive/openapi-demo-2026-11-17/mpaas-openapi-demo-linux-x64.zip.sha256",
+      "bytes": 99,
+      "sha256": "6f069107c18577d51ca4087348316897afe008c68c5690bf8b50bab69bd09e51",
+      "downloadPath": null
+    },
+    {
+      "kind": "demoPackage",
+      "platform": "darwin-arm64",
+      "originalPath": "dist/mpaas-openapi-demo-darwin-arm64.zip",
+      "archivePath": "artifacts/archive/openapi-demo-2026-11-17/mpaas-openapi-demo-darwin-arm64.zip",
+      "bytes": 2628200,
+      "sha256": "8ea8ea54b1079c2235653369c320994bde15cad050321b0fef7b98e83bc7ee47",
+      "downloadPath": "packages/mpaas-openapi-demo-darwin-arm64.zip"
+    },
+    {
+      "kind": "nativeClient",
+      "platform": "darwin-arm64",
+      "originalPath": "dist/mpaas-openapi-rs-darwin-arm64",
+      "archivePath": "artifacts/archive/openapi-demo-2026-11-17/mpaas-openapi-rs-darwin-arm64",
+      "bytes": 5996000,
+      "sha256": "c351018a72df76ab0d233fb8f478d196eab219ecef241bc2e3c1f59e6b50f318",
+      "downloadPath": null
+    },
+    {
+      "kind": "checksum",
+      "platform": "darwin-arm64",
+      "originalPath": "dist/mpaas-openapi-demo-darwin-arm64.zip.sha256",
+      "archivePath": "artifacts/archive/openapi-demo-2026-11-17/mpaas-openapi-demo-darwin-arm64.zip.sha256",
+      "bytes": 102,
+      "sha256": "b69a1300f7b6a9faa5ba047505bc32220502bb5ce8df8f056ba3b9eda592a655",
+      "downloadPath": null
+    },
+    {
+      "kind": "demoPackage",
+      "platform": "win32-x64",
+      "originalPath": "dist/mpaas-openapi-demo-win32-x64.zip",
+      "archivePath": "artifacts/archive/openapi-demo-2026-11-17/mpaas-openapi-demo-win32-x64.zip",
+      "bytes": 4412617,
+      "sha256": "b8dab2a8d4d4013a05bcbef150ea1dcf0c0184c731f4d2fb7a97f1dfbfaddbc4",
+      "downloadPath": "packages/mpaas-openapi-demo-win32-x64.zip"
+    },
+    {
+      "kind": "nativeClient",
+      "platform": "win32-x64",
+      "originalPath": "dist/mpaas-openapi-rs-win32-x64.exe",
+      "archivePath": "artifacts/archive/openapi-demo-2026-11-17/mpaas-openapi-rs-win32-x64.exe",
+      "bytes": 11229421,
+      "sha256": "e7964569c1ae35f901a1b71b92e54754e03c4d185d7472fa74f626f5b7a49759",
+      "downloadPath": null
+    },
+    {
+      "kind": "checksum",
+      "platform": "win32-x64",
+      "originalPath": "dist/mpaas-openapi-demo-win32-x64.zip.sha256",
+      "archivePath": "artifacts/archive/openapi-demo-2026-11-17/mpaas-openapi-demo-win32-x64.zip.sha256",
+      "bytes": 99,
+      "sha256": "cfde2b08aa052c132d35802b2591b54e41af14699988f600d0e6bfeb345a05d9",
+      "downloadPath": null
+    }
+  ],
+  "exclusions": [
+    "config.local.json",
+    "keys/",
+    "任何私钥、公钥配置或真实后台凭据",
+    "node_modules/",
+    "完整编译器与完整SEA工具"
+  ]
+}

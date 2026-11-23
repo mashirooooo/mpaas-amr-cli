@@ -1,0 +1,22 @@
+{
+  "action": "uploadAndPublish",
+  "baseUrl": "https://mcube.example.internal:8281",
+  "appId": "YOUR_MPAAS_APP_ID",
+  "workspaceId": "dev",
+  "tenantId": "ANTCLOUD",
+  "privateKeyFile": "./keys/private-key.pem",
+  "timeoutSeconds": 60,
+  "build": {
+    "project": "../fixtures/minimal",
+    "appId": "0000000000000012",
+    "output": "../artifacts",
+    "minify": true
+  },
+  "upload": {
+    "icon": "./icon.png"
+  },
+  "publish": {
+    "publishType": 3,
+    "memo": "CLI 发布"
+  }
+}

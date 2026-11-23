@@ -1,0 +1,18 @@
+{
+  "action": "uploadAndPublish",
+  "baseUrl": "https://mappcenter.example.internal",
+  "appId": "YOUR_MPAAS_APP_ID",
+  "workspaceId": "dev",
+  "tenantId": "ANTCLOUD",
+  "privateKeyFile": "./keys/mpaas-private-key.pem",
+  "timeoutSeconds": 60,
+  "upload": {
+    "resource": "../packages/0000000000000012",
+    "icon": "./icon.png",
+    "h5Id": "0000000000000012"
+  },
+  "publish": {
+    "publishType": 3,
+    "memo": "通过 OpenAPI 发布"
+  }
+}

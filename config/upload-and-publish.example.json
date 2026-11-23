@@ -1,0 +1,18 @@
+{
+  "action": "uploadAndPublish",
+  "baseUrl": "https://mcube.example.internal:8281",
+  "appId": "YOUR_MPAAS_APP_ID",
+  "workspaceId": "dev",
+  "tenantId": "ANTCLOUD",
+  "privateKeyFile": "./keys/private-key.pem",
+  "timeoutSeconds": 60,
+  "upload": {
+    "resource": "../packages/0000000000000012.zip",
+    "icon": "./icon.png",
+    "h5Id": "0000000000000012"
+  },
+  "publish": {
+    "publishType": 3,
+    "memo": "自动上传并发布小程序"
+  }
+}

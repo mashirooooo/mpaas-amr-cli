@@ -1,0 +1,14 @@
+{
+  "action": "publish",
+  "baseUrl": "https://mcube.example.internal:8281",
+  "appId": "YOUR_MPAAS_APP_ID",
+  "workspaceId": "dev",
+  "tenantId": "ANTCLOUD",
+  "privateKeyFile": "./keys/mpaas-private-key.pem",
+  "timeoutSeconds": 60,
+  "packageId": "189",
+  "publish": {
+    "publishType": 3,
+    "memo": "通过 OpenAPI 发布已有资源"
+  }
+}

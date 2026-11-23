@@ -1,0 +1,65 @@
+{
+  "capturedAt": "2026-11-17T08:46:46.182Z",
+  "files": [
+    {
+      "path": "source/demo/openapi/README.md",
+      "bytes": 6635,
+      "sha256": "6550ee493f19ccd26a1f0a2656f1b2baef4b813e38b46cd68a87f67afa6d5288"
+    },
+    {
+      "path": "source/demo/openapi/config.example.json",
+      "bytes": 325,
+      "sha256": "efe624653fa419507a2a5fbba8a9ee3f179ed3c99b00c3f298657ad5ab422c70"
+    },
+    {
+      "path": "source/demo/openapi/.gitignore",
+      "bytes": 46,
+      "sha256": "5c415ae590190657bd578f4f402538ecb7b65f255b3c5551e64b727a21d002c1"
+    },
+    {
+      "path": "source/scripts/verify-openapi.mjs",
+      "bytes": 5446,
+      "sha256": "72c08b60e7c228756594e9f0bbabe51083e138d67cb0ac2e090bf3fe11e4d8a1"
+    },
+    {
+      "path": "source/scripts/package-openapi-demo.mjs",
+      "bytes": 1351,
+      "sha256": "3d9c6b59502716b9e7e9d71e78cdc9eaabc18a0e8aa57ca804665ae24c526e05"
+    },
+    {
+      "path": "source/rust-sdk/Cargo.toml",
+      "bytes": 871,
+      "sha256": "2d842b7549cb8b5d601085d6cb6216aae3641d29e558fb661da0b6712ab106ea"
+    },
+    {
+      "path": "source/rust-sdk/Cargo.lock",
+      "bytes": 53204,
+      "sha256": "f302ac089dc28ce6d9f93eb6a832fbae8b1c6cd56990343cdc6b2c76249ad7b3"
+    },
+    {
+      "path": "source/rust-sdk/src/client.rs",
+      "bytes": 12592,
+      "sha256": "4d5d4ed013c4a01f92e2256e8b74d02860d3325b13895f4fa37dff396e99bd61"
+    },
+    {
+      "path": "source/rust-sdk/src/config.rs",
+      "bytes": 17413,
+      "sha256": "992e7334b8c15a80615e60a043116764941de222da2897842adf3ddbb50502b7"
+    },
+    {
+      "path": "source/rust-sdk/src/lib.rs",
+      "bytes": 8740,
+      "sha256": "ddb3aba52a9379d356a4ed7d2adb2eba2c2d74d078971ce0427623affdd834e8"
+    },
+    {
+      "path": "source/rust-sdk/src/main.rs",
+      "bytes": 2497,
+      "sha256": "38e0cb54a6e4044695b041f812f55c112593a8672a880a475186118882fb7ab3"
+    },
+    {
+      "path": "source/rust-sdk/src/tests.rs",
+      "bytes": 19700,
+      "sha256": "660f3ba4270b663955148c498d85297feb7b52527feb7fa2f112eb81cbd13e2e"
+    }
+  ]
+}

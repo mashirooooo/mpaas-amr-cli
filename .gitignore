@@ -3,3 +3,10 @@ artifacts/
 dist/
 .minidev/
 .DS_Store
+config/*.local.json
+config/keys/
+rust-sdk/*.exe
+rust-sdk/config.local.json
+rust-sdk/config.get-packages.local.json
+rust-sdk/target/
+rust-sdk/keys/

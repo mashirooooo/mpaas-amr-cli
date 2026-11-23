@@ -11,7 +11,14 @@
     "build": "node src/cli.mjs build --project fixtures/minimal --app-id 0000000000000012 --version 1.0.0.0 --output artifacts",
     "validate": "node src/cli.mjs validate artifacts/1.0.0.0/0000000000000012.amr",
     "download-assets": "node src/cli.mjs download-assets --with-compiler",
+    "verify:openapi": "node src/cli.mjs openapi",
+    "verify:openapi-demo": "node scripts/verify-openapi.mjs",
+    "verify:release": "node scripts/verify-release.mjs",
+    "verify:deploy": "node scripts/verify-deploy.mjs",
     "test": "node --test test/*.test.mjs",
+    "build:openapi": "node scripts/build-openapi.mjs",
+    "package:openapi-demo": "node scripts/package-openapi-demo.mjs",
+    "package:publisher": "node scripts/package-publisher.mjs",
     "package:sea": "node scripts/package-sea.mjs"
   },
   "dependencies": {

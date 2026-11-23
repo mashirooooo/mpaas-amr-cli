@@ -1,0 +1,11 @@
+{
+  "action": "getUploadDefaults",
+  "baseUrl": "https://mcube.example.internal:8281",
+  "appId": "YOUR_MPAAS_APP_ID",
+  "workspaceId": "dev",
+  "tenantId": "ANTCLOUD",
+  "privateKeyFile": "./keys/mpaas-private-key.pem",
+  "h5Id": "0000000000000012",
+  "packageTypes": "1",
+  "timeoutSeconds": 60
+}

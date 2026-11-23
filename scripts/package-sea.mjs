@@ -4,6 +4,7 @@ import fsSync from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
+import { build as bundleCli } from 'esbuild';
 import * as tar from 'tar';
 
 process.on('uncaughtException', (error) => {
@@ -19,8 +20,11 @@ const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
 const target = process.env.SEA_TARGET || `${process.platform}-${process.arch}`;
 const [platform, arch] = target.split('-');
-if (!['linux-x64', 'win32-x64'].includes(target)) {
-  throw new Error(`Unsupported SEA target: ${target}. Supported targets: linux-x64, win32-x64`);
+if (!['linux-x64', 'win32-x64', 'darwin-arm64'].includes(target)) {
+  throw new Error(`Unsupported SEA target: ${target}. Supported targets: linux-x64, win32-x64, darwin-arm64`);
+}
+if (target !== `${process.platform}-${process.arch}`) {
+  throw new Error(`SEA target ${target} must match the build machine ${process.platform}-${process.arch}. Build on the target platform.`);
 }
 const executableName = `mpaas-amr-${platform}-${arch}${platform === 'win32' ? '.exe' : ''}`;
 await fs.mkdir(dist, { recursive: true });
@@ -34,7 +38,28 @@ if (!fsSync.existsSync(compilerSource)) {
   throw new Error(`Compiler resources not found at ${compilerSource}. Run minidev download-assets --with-compiler first.`);
 }
 
+const openapiName = `mpaas-openapi-rs${platform === 'win32' ? '.exe' : ''}`;
+const openapiBinary = process.env.SEA_OPENAPI_BINARY
+  ? path.resolve(process.env.SEA_OPENAPI_BINARY)
+  : path.join(root, 'rust-sdk', 'target', 'release', openapiName);
+if (!process.env.SEA_OPENAPI_BINARY) {
+  const buildOpenapi = spawnSync(process.execPath, [path.join(root, 'scripts', 'build-openapi.mjs')], {
+    cwd: root,
+    stdio: 'inherit',
+  });
+  if (buildOpenapi.status !== 0) process.exit(buildOpenapi.status || 1);
+}
+if (!fsSync.existsSync(openapiBinary)) {
+  throw new Error(`Native OpenAPI client not found: ${openapiBinary}. Run npm run build:openapi on the target platform.`);
+}
+const openapiHelp = spawnSync(openapiBinary, ['--help'], { encoding: 'utf8' });
+if (openapiHelp.error || openapiHelp.status !== 0 || !openapiHelp.stdout.includes('mpaas-openapi-rs')) {
+  throw new Error(`OpenAPI client cannot run on ${target}: ${openapiHelp.error?.message || openapiHelp.stderr || openapiBinary}`);
+}
+console.log(`[package:sea] OpenAPI client=${openapiBinary}`);
+
 const staging = await fs.mkdtemp(path.join(os.tmpdir(), 'mpaas-amr-runtime-'));
+const runtimeArchive = path.join(dist, 'mpaas-amr-runtime.tar.gz');
 console.log(`[package:sea] staging=${staging}`);
 try {
   await fs.cp(path.join(root, 'node_modules'), path.join(staging, 'node_modules'), {
@@ -46,33 +71,32 @@ try {
   });
   await fs.mkdir(path.join(staging, '.minidev'), { recursive: true });
   await fs.cp(compilerSource, path.join(staging, '.minidev', 'compilers', compilerVersion), { recursive: true });
-} catch (error) {
+  await fs.mkdir(path.join(staging, 'bin'));
+  const embeddedOpenapi = path.join(staging, 'bin', openapiName);
+  await fs.copyFile(openapiBinary, embeddedOpenapi);
+  if (platform !== 'win32') await fs.chmod(embeddedOpenapi, 0o755);
+  console.log('[package:sea] archiving runtime');
+  await tar.c({ cwd: staging, file: runtimeArchive, gzip: true, portable: true }, [
+    'node_modules',
+    '.minidev/compilers',
+    'bin',
+  ]);
+} finally {
   await fs.rm(staging, { recursive: true, force: true });
-  throw error;
 }
-
-const runtimeArchive = path.join(dist, 'mpaas-amr-runtime.tar.gz');
-console.log('[package:sea] archiving runtime');
-await tar.c({ cwd: staging, file: runtimeArchive, gzip: true, portable: true }, [
-  'node_modules',
-  '.minidev/compilers',
-]);
-await fs.rm(staging, { recursive: true, force: true });
 console.log(`[package:sea] runtime archive=${runtimeArchive}`);
 
 console.log('[package:sea] bundling CLI');
-const esbuildCli = path.join(root, 'node_modules', '.bin', `esbuild${platform === 'win32' ? '.cmd' : ''}`);
-const bundle = spawnSync(esbuildCli, [
-  'src/cli.mjs',
-  '--bundle',
-  '--platform=node',
-  '--format=cjs',
-  '--external:minidev',
-  '--external:fsevents',
-  '--external:electron',
-  '--outfile=dist/bundle.cjs',
-], { cwd: root, stdio: 'inherit', shell: platform === 'win32' });
-if (bundle.status !== 0) process.exit(bundle.status || 1);
+await bundleCli({
+  absWorkingDir: root,
+  entryPoints: [path.join(root, 'src', 'cli.mjs')],
+  bundle: true,
+  platform: 'node',
+  format: 'cjs',
+  external: ['minidev', 'fsevents', 'electron'],
+  outfile: path.join(dist, 'bundle.cjs'),
+  logLevel: 'info',
+});
 
 const seaConfig = JSON.parse(await fs.readFile(path.join(root, 'scripts', 'sea-config.json'), 'utf8'));
 console.log('[package:sea] creating SEA blob');
@@ -87,7 +111,7 @@ const result = spawnSync(process.execPath, ['--experimental-sea-config', generat
 if (result.status !== 0) process.exit(result.status || 1);
 
 const binary = path.join(dist, executableName);
-const nodeBinary = process.env.SEA_NODE_BINARY || process.execPath;
+const nodeBinary = process.execPath;
 console.log(`[package:sea] runtime=${nodeBinary}`);
 if (!fsSync.existsSync(nodeBinary)) throw new Error(`Node runtime not found: ${nodeBinary}`);
 await fs.copyFile(nodeBinary, binary);

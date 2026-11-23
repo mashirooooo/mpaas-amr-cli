@@ -1,0 +1,13 @@
+{
+  "action": "api",
+  "baseUrl": "https://mcube.example.internal:8281",
+  "appId": "YOUR_MPAAS_APP_ID",
+  "workspaceId": "dev",
+  "tenantId": "ANTCLOUD",
+  "privateKeyFile": "./keys/private-key.pem",
+  "timeoutSeconds": 60,
+  "api": {
+    "path": "/openapi/miniprogram/getAppList",
+    "params": {}
+  }
+}

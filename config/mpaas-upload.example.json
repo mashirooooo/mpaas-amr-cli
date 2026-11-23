@@ -1,0 +1,12 @@
+{
+  "baseUrl": "https://mpaas.example.internal",
+  "headers": {
+    "Cookie": "<copy-session-cookie-from-console-request>",
+    "X-CSRF-Token": "<copy-if-present-in-console-request>"
+  },
+  "validateBeforeUpload": true,
+  "resource": "../artifacts/1.0.0.0/0000000000000012.amr",
+  "icon": "./icon.png",
+  "virtualDomain": "mini.example.internal",
+  "clientVersionMin": "1.0.0;1.0.0"
+}

@@ -1,0 +1,14 @@
+{
+  "action": "publish",
+  "baseUrl": "https://mcube.example.internal:8281",
+  "appId": "YOUR_MPAAS_APP_ID",
+  "workspaceId": "dev",
+  "tenantId": "ANTCLOUD",
+  "privateKeyFile": "./keys/private-key.pem",
+  "timeoutSeconds": 60,
+  "packageId": "YOUR_PACKAGE_ID",
+  "publish": {
+    "publishType": 3,
+    "memo": "自动发布小程序"
+  }
+}

@@ -1,0 +1,12 @@
+.git
+.DS_Store
+node_modules
+dist
+artifacts
+.minidev
+rust-sdk/target
+rust-sdk/keys
+config/keys
+rust-sdk/mpaas-openapi-rs.exe
+**/*.local.json
+**/*.pem
